@@ -1,9 +1,42 @@
 const express = require('express');
-//const connectDB = require('./config/db');
+const connectDB = require('./config/db');
 const path = require('path');
+const dotenv = require('dotenv');
 const colors = require('colors');
 
+// Load env vars
+dotenv.config({ path: './config/config.env' });
+
+//Connect to database
+connectDB();
+
+//console.log("I ran".red);
+
+
+//Routes files
+const profile = require('./routes/api/profile');
+const auth = require('./routes/api/auth');
+const users = require('./routes/api/users');
+const posts = require('./routes/api/posts');
+
+//initatlize express
 const app = express();
+
+// Body parser
+app.use(express.json());
+
+
+//Mount routers
+app.use('/api/profile', profile);
+app.use('/api/auth', auth);
+app.use('/api/users', users);
+app.use('/api/posts', posts);
+
+
+
+
+
+
 
 app.get('/', (req, res) => res.send('api running'));
 
